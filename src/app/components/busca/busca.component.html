@@ -1,0 +1,11 @@
+<div class="busca">
+  <input
+    type="text"
+    placeholder="Digite o que você procura"
+    (input)="handleBusca($event)"
+    (keydown.enter)="handleInputEnter($event)"
+  />
+  <button class="buscaIcone" (click)="redirecionarParaBusca()">
+    <fa-icon [icon]="faSearch"></fa-icon>
+  </button>
+</div>

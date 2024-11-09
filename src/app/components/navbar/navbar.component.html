@@ -1,0 +1,25 @@
+<div class="navbar">
+  <div class="container-nome">
+    <a [routerLink]="['/']"><h1 class="nome-loja">Cupcake Store</h1></a>
+  </div>
+
+  <div class="container-login">
+    <fa-icon
+      [icon]="faUser"
+      [routerLink]="windowWidth < 768 ? ['/login'] : null"
+      [ngStyle]="{ cursor: windowWidth < 768 ? 'pointer' : 'auto' }"
+    />
+    <div *ngIf="windowWidth >= 768">
+      <p>Olá visitante, seja bem-vindo</p>
+      <a [routerLink]="['/login']">
+        <p class="login-text">Entrar</p>
+      </a>
+    </div>
+  </div>
+
+  <div class="container-carrinho">
+    <a [routerLink]="['/carrinho']">
+      <fa-icon [icon]="faCartShopping"></fa-icon>
+    </a>
+  </div>
+</div>
