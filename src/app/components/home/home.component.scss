@@ -14,7 +14,10 @@ $border-primary: #ccc;
   width: 100%;
 
   img {
+    cursor: pointer;
+    height: 190px;
     max-width: 100%;
+    min-width: 190px;
   }
 }
 
