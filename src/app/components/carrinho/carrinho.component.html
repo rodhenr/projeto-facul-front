@@ -3,18 +3,16 @@
 
   <div class="cart-items" *ngIf="itensCarrinho.length > 0; else emptyCart">
     <div class="cart-item" *ngFor="let item of itensCarrinho">
-      <!-- Primeira linha: Imagem, Nome e Excluir -->
       <div class="item-line">
         <img [src]="item.urlImagem" [alt]="item.nome" class="product-image" />
         <div class="product-details">
           <h3>{{ item.nome }}</h3>
         </div>
         <button class="remove-button" (click)="removeItem(item.id)">
-          Excluir
+          <fa-icon [icon]="faTrash"></fa-icon>
         </button>
       </div>
 
-      <!-- Segunda linha: Quantidade e Preço -->
       <div class="item-line">
         <div class="quantity-controls">
           <button (click)="diminuirQuantidade(item.id)">-</button>
@@ -22,14 +20,29 @@
           <button (click)="aumentarQuantidade(item.id)">+</button>
         </div>
         <div class="item-price">
-          {{ item.preco * item.quantidade | currency : "BRL" }}
+          {{
+            item.preco * item.quantidade | currency : "BRL" : "symbol" : "1.2-2"
+          }}
         </div>
       </div>
     </div>
 
+    <div class="taxa-entrega">
+      <p class="bold-text">Taxa de entrega</p>
+      <p class="price">
+        {{ obterTaxaEntrega() | currency : "BRL" : "symbol" : "1.2-2" }}
+      </p>
+    </div>
+
+    <hr />
+
     <div class="total-price">
-      <p>
-        <strong>Total: {{ ObterPrecoTotal() | currency : "BRL" }}</strong>
+      <p class="bold-text">Total</p>
+      <p class="price">
+        {{
+          obterPrecoItensTotal() + obterTaxaEntrega()
+            | currency : "BRL" : "symbol" : "1.2-2"
+        }}
       </p>
     </div>
 

@@ -1,15 +1,26 @@
-/* cart.component.css */
 .cart-container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 20px;
   font-family: Arial, sans-serif;
+  margin: 0 auto;
+  max-width: 1200px;
+  padding: 20px;
+
+  hr {
+    border-color: #76606c;
+    height: 2px;
+    margin: 0;
+    width: 100%;
+  }
+
+  p {
+    margin: 0;
+  }
 }
 
 h1 {
-  text-align: center;
+  color: #76606c;
   font-size: 2rem;
   margin-bottom: 20px;
+  text-align: left;
 }
 
 .cart-items {
@@ -19,40 +30,41 @@ h1 {
 }
 
 .cart-item {
+  border: 1px solid #ddd;
+  border-radius: 0.5rem;
   display: flex;
   flex-direction: column;
-  border: 1px solid #ddd;
-  padding: 15px;
-  border-radius: 8px;
+  gap: 0.5rem;
+  padding: 1rem;
 }
 
 .item-line {
-  display: flex;
-  justify-content: space-between;
   align-items: center;
+  display: flex;
+  gap: 0.5rem;
+  justify-content: space-between;
   width: 100%;
-  gap: 10px;
 }
 
 .product-image {
-  width: 80px;
+  border-radius: 5px;
   height: 80px;
   object-fit: cover;
-  border-radius: 5px;
+  width: 80px;
 }
 
 .product-details h3 {
-  margin: 0;
   font-size: 1.2rem;
+  margin: 0;
 }
 
 .remove-button {
   background-color: red;
-  color: white;
-  padding: 5px 10px;
   border: none;
   border-radius: 5px;
   cursor: pointer;
+  color: white;
+  padding: 5px 0.5rem;
 }
 
 .remove-button:hover {
@@ -60,17 +72,17 @@ h1 {
 }
 
 .quantity-controls {
-  display: flex;
-  gap: 10px;
   align-items: center;
+  display: flex;
+  gap: 0.5rem;
 }
 
 .quantity-controls button {
-  padding: 5px 10px;
-  font-size: 1.2rem;
-  cursor: pointer;
   border: 1px solid #ccc;
   border-radius: 5px;
+  cursor: pointer;
+  font-size: 1rem;
+  width: 25px;
 }
 
 .item-price {
@@ -79,27 +91,50 @@ h1 {
   min-width: 100px;
 }
 
-.total-price {
+.taxa-entrega {
+  align-items: center;
+  color: #76606c;
   display: flex;
-  justify-content: flex-end;
-  font-size: 1.5rem;
+  gap: 1rem;
+  justify-content: space-between;
   margin-top: 20px;
+}
+
+.bold-text {
+  font-weight: bold;
+}
+
+.price {
+  display: flex;
+  border: 1px solid black;
+  border-radius: 0.25rem;
+  justify-self: flex-end;
+  padding: 0.5rem 1rem;
+}
+
+.total-price {
+  align-items: center;
+  color: #76606c;
+  display: flex;
+  gap: 1rem;
+  justify-content: flex-end;
 }
 
 .checkout-button {
-  background-color: #28a745;
-  color: white;
-  padding: 10px 20px;
+  background-color: #76606c;
   border: none;
-  border-radius: 5px;
-  width: 100%;
-  font-size: 1.2rem;
+  border-radius: 4px;
+  color: white;
   cursor: pointer;
+  font-size: 1.2rem;
+  height: 50px;
   margin-top: 20px;
+  padding: 0.5rem 20px;
+  width: 100%;
 }
 
 .checkout-button:hover {
-  background-color: #218838;
+  background-color: #382d34;
 }
 
 /* Responsividade */
@@ -107,7 +142,7 @@ h1 {
   .cart-item {
     flex-direction: column;
     align-items: flex-start;
-    padding: 10px;
+    padding: 0.5rem;
   }
 
   .item-line {
@@ -122,7 +157,7 @@ h1 {
 
   .product-details {
     flex: 1;
-    margin-left: 10px;
+    margin-left: 0.5rem;
   }
 
   .remove-button {
@@ -154,7 +189,7 @@ h1 {
   }
 
   .cart-item {
-    padding: 10px;
+    padding: 0.5rem;
   }
 
   .product-image {
@@ -163,7 +198,7 @@ h1 {
   }
 
   .remove-button {
-    margin-top: 10px;
+    margin-top: 0.5rem;
   }
 
   .item-price {

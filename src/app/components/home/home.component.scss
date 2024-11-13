@@ -12,13 +12,6 @@ $border-primary: #ccc;
   flex-direction: column;
   gap: 1rem;
   width: 100%;
-
-  img {
-    cursor: pointer;
-    height: 190px;
-    max-width: 100%;
-    min-width: 190px;
-  }
 }
 
 .destaque {
@@ -39,4 +32,15 @@ $border-primary: #ccc;
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 0.5rem;
+
+  img {
+    cursor: pointer;
+    height: 160px;
+    max-width: 100%;
+    min-width: 100%;
+  }
+
+  @media (min-width: 768px) {
+    grid-template-columns: repeat(3, 1fr);
+  }
 }

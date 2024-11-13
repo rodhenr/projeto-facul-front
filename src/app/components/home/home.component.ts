@@ -1,6 +1,8 @@
-import { NgFor } from '@angular/common';
+import { CommonModule, NgFor, NgIf } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, RouterModule } from '@angular/router';
+import { RouterModule } from '@angular/router';
+import { Observable } from 'rxjs';
+import { LoadingService } from '../../services/loading/loading.service';
 import {
   Produto,
   ProdutoService,
@@ -10,17 +12,20 @@ import { BuscaComponent } from '../busca/busca.component';
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [BuscaComponent, RouterModule, NgFor],
+  imports: [BuscaComponent, RouterModule, NgFor, NgIf, CommonModule],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss',
 })
 export class HomeComponent implements OnInit {
   produtos: Produto[] = [];
+  isLoading$: Observable<boolean>;
 
   constructor(
-    private route: ActivatedRoute,
-    private produtoService: ProdutoService
-  ) {}
+    private produtoService: ProdutoService,
+    private loadingService: LoadingService
+  ) {
+    this.isLoading$ = this.loadingService.loading$;
+  }
 
   ngOnInit(): void {
     this.buscarProdutos();

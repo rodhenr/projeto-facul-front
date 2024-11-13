@@ -47,8 +47,8 @@ export class AuthService {
   }
 
   logout() {
-    localStorage.removeItem('access_token');
-    this.router.navigate(['/login']);
+    this.excluirTokenAcesso();
+    this.router.navigate(['']);
   }
 
   obterTokenAcesso(): string | null {

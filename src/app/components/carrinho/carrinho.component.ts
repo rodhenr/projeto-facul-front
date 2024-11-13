@@ -1,15 +1,18 @@
 import { CommonModule, NgFor, NgIf } from '@angular/common';
 import { Component } from '@angular/core';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { faTrash } from '@fortawesome/free-solid-svg-icons';
 import { CarrinhoService } from '../../services/carrinho/carrinho.service';
 
 @Component({
   selector: 'app-carrinho',
   standalone: true,
-  imports: [NgFor, NgIf, CommonModule],
+  imports: [NgFor, NgIf, CommonModule, FontAwesomeModule],
   templateUrl: './carrinho.component.html',
   styleUrls: ['./carrinho.component.scss'],
 })
 export class CarrinhoComponent {
+  faTrash = faTrash;
   itensCarrinho: any[] = [];
   isUpdating: boolean = false;
 
@@ -50,10 +53,14 @@ export class CarrinhoComponent {
     setTimeout(() => (this.isUpdating = false), 300);
   }
 
-  ObterPrecoTotal(): number {
+  obterPrecoItensTotal(): number {
     return this.itensCarrinho.reduce(
       (total, item) => total + item.preco * item.quantidade,
       0
     );
+  }
+
+  obterTaxaEntrega(): number {
+    return this.obterPrecoItensTotal() >= 100 ? 0 : 30;
   }
 }

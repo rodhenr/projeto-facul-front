@@ -2,8 +2,12 @@
   <div class="destaque"></div>
   <div class="conteudo-container">
     <app-busca />
-    <div class="container-itens" *ngFor="let item of produtos">
+    <div *ngIf="isLoading$ | async" class="loading-overlay">
+      <p>Carregando...</p>
+    </div>
+    <div class="container-itens">
       <img
+        *ngFor="let item of produtos"
         [src]="item.urlImagem"
         [alt]="item.nome"
         [routerLink]="['produto', item.id]"
