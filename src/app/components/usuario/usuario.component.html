@@ -1,0 +1,15 @@
+<div class="user-page">
+  <h2>Minha Conta</h2>
+  <div class="user-options">
+    <div class="option" (click)="navegarPara('pedidos')">
+      <i class="fa fa-box"></i>
+      <span>Meus Pedidos</span>
+    </div>
+    <div class="option" (click)="navegarPara('enderecos')">
+      <i class="fa fa-map-marker-alt"></i>
+      <span>Meus Endereços</span>
+    </div>
+  </div>
+
+  <router-outlet></router-outlet>
+</div>

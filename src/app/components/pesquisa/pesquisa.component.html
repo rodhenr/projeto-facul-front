@@ -4,9 +4,9 @@
   <div class="itens-container">
     <div *ngFor="let produto of produtos" class="itens">
       <img
-        src="{{ produto.url }}"
+        src="{{ produto.urlImagem }}"
         alt="{{ produto.nome }}"
-        [routerLink]="['/produto/{{produto.id}}']"
+        [routerLink]="['/produto', produto.id]"
       />
     </div>
   </div>

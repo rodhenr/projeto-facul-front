@@ -98,18 +98,38 @@ $border-primary: #ccc;
   cursor: pointer;
   display: flex;
   gap: 0.5rem;
+  position: relative;
 
   .ng-fa-icon {
     color: $text-secondary;
     font-size: 1.2rem;
   }
 
+  .quantidade-carrinho {
+    align-items: center;
+    background-color: $background-terceary;
+    border-radius: 50%;
+    color: $text-secondary;
+    display: flex;
+    font-size: 10px;
+    font-weight: bold;
+    justify-content: center;
+    padding: 3px 7px;
+    position: absolute;
+    right: -8px;
+    top: -8px;
+  }
+
   @media (min-width: 768px) {
     margin: 0.7rem;
-    position: relative;
 
     .ng-fa-icon {
       font-size: 1.7rem;
+    }
+
+    .quantidade-carrinho {
+      font-size: 14px;
+      padding: 5px 10px;
     }
   }
 }

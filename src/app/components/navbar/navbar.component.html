@@ -7,18 +7,21 @@
     <div class="container-carrinho">
       <a [routerLink]="['/carrinho']">
         <fa-icon [icon]="faCartShopping"></fa-icon>
+        <span class="quantidade-carrinho" *ngIf="quantidadeItens > 0">
+          {{ quantidadeItens }}
+        </span>
       </a>
     </div>
 
     <div class="container-login">
       <fa-icon
         [icon]="faUser"
-        [routerLink]="windowWidth < 768 ? ['/login'] : null"
+        (click)="navegarBaseadoAutenticacao()"
         [ngStyle]="{ cursor: windowWidth < 768 ? 'pointer' : 'auto' }"
       />
       <div *ngIf="windowWidth >= 768">
         <p>Olá visitante, seja bem-vindo</p>
-        <a [routerLink]="['/login']">
+        <a (click)="navegarBaseadoAutenticacao()">
           <p class="login-text">Entrar</p>
         </a>
       </div>

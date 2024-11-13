@@ -16,6 +16,7 @@ import { BuscaComponent } from '../busca/busca.component';
 })
 export class PesquisaComponent implements OnInit {
   produtos: Produto[] = [];
+  filtro: string = '';
 
   constructor(
     private route: ActivatedRoute,
@@ -23,13 +24,15 @@ export class PesquisaComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.buscarProdutos();
+    this.route.queryParams.subscribe((params) => {
+      this.filtro = params['q'] || ''; // Obter 'q' ou deixar em branco se não existir
+      this.buscarProdutos();
+    });
   }
 
   buscarProdutos(): void {
-    this.produtoService.buscarProdutos().subscribe({
+    this.produtoService.buscarProdutosPorFiltro(this.filtro).subscribe({
       next: (produtos) => {
-        console.log(produtos);
         this.produtos = produtos;
       },
       error: (erro) => console.log(erro),

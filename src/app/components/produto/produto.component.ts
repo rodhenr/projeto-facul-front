@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
-import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { CarrinhoService } from '../../services/carrinho/carrinho.service';
 import {
   Produto,
   ProdutoService,
@@ -20,12 +20,24 @@ export class ProdutoComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private produtoService: ProdutoService,
-    private http: HttpClient
+    private carrinhoService: CarrinhoService
   ) {}
 
   ngOnInit(): void {
     const produtoId = this.route.snapshot.paramMap.get('id');
     this.buscarProduto(Number(produtoId));
+  }
+
+  adicionarCarrinho(): void {
+    if (this.produto !== null) {
+      this.carrinhoService.adicionarCarrinho({
+        id: this.produto.id,
+        nome: this.produto.nome,
+        preco: this.produto.preco,
+        urlImagem: this.produto.urlImagem,
+        quantidade: 1,
+      });
+    }
   }
 
   buscarProduto(id: number): void {

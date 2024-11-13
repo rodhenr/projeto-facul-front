@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 import { Observable, tap } from 'rxjs';
 
 export interface ICadastro {
@@ -26,13 +27,12 @@ export interface ILoginResponse {
 export class AuthService {
   private baseUrl = 'https://localhost:44353/api/auth';
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private router: Router) {}
 
   cadastrarUsuario(dadosCadastro: ICadastro): Observable<any> {
     return this.http.post(`${this.baseUrl}/cadastro`, dadosCadastro);
   }
 
-  // TODO: Alterar para maior segurança
   logarUsuario(dadosLogin: ILogin): Observable<any> {
     return this.http
       .post<ILoginResponse>(`${this.baseUrl}/login`, dadosLogin)
@@ -44,6 +44,11 @@ export class AuthService {
           localStorage.setItem('refreshToken', resposta.refreshToken);
         })
       );
+  }
+
+  logout() {
+    localStorage.removeItem('access_token');
+    this.router.navigate(['/login']);
   }
 
   obterTokenAcesso(): string | null {

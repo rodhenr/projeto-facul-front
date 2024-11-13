@@ -1,14 +1,13 @@
 <div class="produto-container">
-  <img
-    src="https://st.depositphotos.com/2274151/4841/i/450/depositphotos_48410095-stock-photo-sample-blue-square-grungy-stamp.jpg"
-    alt="sample"
-  />
+  <img src="{{ produto?.urlImagem }}" alt="{{ produto?.nome }}" />
   <div class="descricao">
     <h1>{{ produto?.nome }}</h1>
     <p class="descricao">{{ produto?.descricao }}</p>
     <div class="preco">
       <p>{{ produto?.preco | currency : "BRL" : "symbol" : "1.2-2" }}</p>
     </div>
-    <button class="btn-add-carrinho">Adicionar ao carrinho</button>
+    <button class="btn-add-carrinho" (click)="adicionarCarrinho()">
+      Adicionar ao carrinho
+    </button>
   </div>
 </div>

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import {
   FormControl,
   FormGroup,
@@ -15,13 +15,19 @@ import { AuthService, ILogin } from '../../services/auth/auth.service';
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss',
 })
-export class LoginComponent {
+export class LoginComponent implements OnInit {
   loginForm = new FormGroup({
     email: new FormControl('', Validators.email),
     senha: new FormControl(''),
   });
 
   constructor(private AuthService: AuthService, private router: Router) {}
+
+  ngOnInit(): void {
+    const token = localStorage.getItem('accessToken');
+
+    if (token) this.router.navigate(['/usuario']);
+  }
 
   logarUsuario() {
     if (this.loginForm.valid) {

@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
@@ -7,7 +7,7 @@ export interface Produto {
   nome: string;
   descricao: string;
   preco: number;
-  url: string;
+  urlImagem: string;
 }
 
 @Injectable({
@@ -18,8 +18,10 @@ export class ProdutoService {
 
   constructor(private http: HttpClient) {}
 
-  buscarProdutos(): Observable<any> {
-    return this.http.get<Produto[]>(`${this.baseUrl}`);
+  buscarProdutosPorFiltro(filtro: string): Observable<any> {
+    const params = new HttpParams().set('filtro', filtro);
+
+    return this.http.get<Produto[]>(`${this.baseUrl}`, { params });
   }
 
   buscarProdutoEmDestaque(): Observable<any> {

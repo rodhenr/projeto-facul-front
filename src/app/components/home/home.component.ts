@@ -29,7 +29,6 @@ export class HomeComponent implements OnInit {
   buscarProdutos(): void {
     this.produtoService.buscarProdutoEmDestaque().subscribe({
       next: (produtos) => {
-        console.log(produtos);
         this.produtos = produtos;
       },
       error: (erro) => console.log(erro),
