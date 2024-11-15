@@ -1,13 +1,13 @@
 import { Routes } from '@angular/router';
-import { CadastroComponent } from './components/cadastro/cadastro.component';
-import { CarrinhoComponent } from './components/carrinho/carrinho.component';
-import { HomeComponent } from './components/home/home.component';
-import { LoginComponent } from './components/login/login.component';
-import { PagamentoComponent } from './components/pagamento/pagamento.component';
-import { PesquisaComponent } from './components/pesquisa/pesquisa.component';
-import { ProdutoComponent } from './components/produto/produto.component';
-import { UsuarioComponent } from './components/usuario/usuario.component';
-import { authGuard } from './guards/auth/auth.guard';
+import { authGuard } from './core/guards/auth/auth.guard';
+import { CadastroComponent } from './features/cadastro/cadastro.component';
+import { CarrinhoComponent } from './features/carrinho/carrinho.component';
+import { HomeComponent } from './features/home/home.component';
+import { LoginComponent } from './features/login/login.component';
+import { PagamentoComponent } from './features/pagamento/pagamento.component';
+import { PesquisaComponent } from './features/pesquisa/pesquisa.component';
+import { ProdutoComponent } from './features/produto/produto.component';
+import { UsuarioComponent } from './features/usuario/usuario.component';
 
 export const routes: Routes = [
   { path: '', component: HomeComponent },
