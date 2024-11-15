@@ -8,12 +8,14 @@ import {
 } from '@angular/forms';
 import { AuthService } from '../../core/services/auth/auth.service';
 import { EnderecoService } from '../../core/services/endereco/endereco.service';
+import { LoadingService } from '../../core/services/loading/loading.service';
 import { PedidoService } from '../../core/services/pedido/pedido.service';
+import { LoadingComponent } from '../../shared/components/loading/loading.component';
 
 @Component({
   selector: 'app-usuario',
   standalone: true,
-  imports: [NgFor, NgIf, CommonModule, ReactiveFormsModule],
+  imports: [NgFor, NgIf, CommonModule, ReactiveFormsModule, LoadingComponent],
   templateUrl: './usuario.component.html',
   styleUrls: ['./usuario.component.scss'],
 })
@@ -22,13 +24,15 @@ export class UsuarioComponent implements OnInit {
   pedidos: any[] = [];
   mostrarFormularioEndereco: boolean = false;
   ehEdicao: boolean = false;
-
   formEndereco: FormGroup;
+  isLoading: boolean = false;
+  isError: boolean = false;
 
   constructor(
     private enderecoService: EnderecoService,
     private pedidoService: PedidoService,
-    private authService: AuthService
+    private authService: AuthService,
+    private loadingService: LoadingService
   ) {
     this.formEndereco = new FormGroup({
       rua: new FormControl('', [Validators.required]),
@@ -43,28 +47,46 @@ export class UsuarioComponent implements OnInit {
   ngOnInit() {
     this.carregarEndereco();
     this.carregarPedidos();
+
+    this.loadingService.loading$.subscribe((loading) => {
+      this.isLoading = loading;
+    });
   }
 
   carregarEndereco() {
-    this.enderecoService.obterEndereco().subscribe((endereco) => {
-      this.endereco = endereco;
+    this.enderecoService.obterEndereco().subscribe({
+      next: (endereco) => {
+        this.isError = false;
+        this.endereco = endereco;
 
-      if (endereco) {
-        this.formEndereco.setValue({
-          rua: endereco.rua,
-          numero: endereco.numero,
-          cidade: endereco.cidade,
-          uf: endereco.uf,
-          bairro: endereco.bairro,
-          cep: endereco.cep,
-        });
-      }
+        if (endereco) {
+          this.formEndereco.setValue({
+            rua: endereco.rua,
+            numero: endereco.numero,
+            cidade: endereco.cidade,
+            uf: endereco.uf,
+            bairro: endereco.bairro,
+            cep: endereco.cep,
+          });
+        }
+      },
+      error: () => {
+        this.isError = true;
+        alert('Erro ao buscar endereços.');
+      },
     });
   }
 
   carregarPedidos() {
-    this.pedidoService.obterPedidos().subscribe((pedidos) => {
-      this.pedidos = pedidos;
+    this.pedidoService.obterPedidos().subscribe({
+      next: (pedidos) => {
+        this.pedidos = pedidos;
+        this.isError = false;
+      },
+      error: () => {
+        this.isError = true;
+        alert('Erro ao buscar pedidos.');
+      },
     });
   }
 

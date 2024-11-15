@@ -85,3 +85,9 @@ hr {
   font-size: 1.25rem;
   font-weight: bold;
 }
+
+.endereco-atual {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}

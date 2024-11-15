@@ -1,80 +1,92 @@
 <div class="pagamento-container">
-  <h2>Pagamento</h2>
-
-  <!-- Seleção da Forma de Pagamento -->
-  <div class="forma-pagamento">
-    <p class="title">Selecione a forma de pagamento:</p>
-    <label>
-      <input type="radio" [(ngModel)]="formaPagamento" value="boleto" />
-      <span class="icone-boleto"></span> Boleto
-    </label>
-    <label>
-      <input type="radio" [(ngModel)]="formaPagamento" value="pix" />
-      <span class="icone-pix"></span> PIX
-    </label>
+  <div class="loading-overlay" *ngIf="isLoading; else carregou">
+    <app-loading [isLoading]="isLoading"></app-loading>
   </div>
 
-  <hr />
+  <ng-template #carregou
+    ><div *ngIf="isError; else possuiDados">
+      <p>Foi encontrado um erro ao buscar os dados. Tente novamente.</p>
+    </div></ng-template
+  >
 
-  <!-- Endereço -->
-  <div class="endereco">
-    <h2 class="title">Endereço</h2>
-    <div class="endereco-atual">
-      <p>
-        {{ endereco.rua }},
-        {{ endereco.numero }}
-      </p>
-      <p>
-        {{ endereco.cidade }} /
-        {{ endereco.uf }}
-      </p>
-      <p>{{ endereco.bairro }}</p>
-      <p>{{ endereco.cep }}</p>
-    </div>
-  </div>
+  <ng-template #possuiDados>
+    <h2>Pagamento</h2>
 
-  <hr />
+    <!-- Seleção da Forma de Pagamento -->
+    <div class="forma-pagamento">
+      <p class="title">Selecione a forma de pagamento:</p>
+      <label>
+        <input type="radio" [(ngModel)]="formaPagamento" value="boleto" />
+        <span class="icone-boleto"></span> Boleto
+      </label>
+      <label>
+        <input type="radio" [(ngModel)]="formaPagamento" value="pix" />
+        <span class="icone-pix"></span> PIX
+      </label>
+    </div>
 
-  <!-- Cupom -->
-  <div class="cupom">
-    <label for="cupom">CUPOM:</label>
-    <input
-      type="text"
-      id="cupom"
-      [(ngModel)]="cupom"
-      (input)="atualizarTotais()"
-    />
-  </div>
-
-  <!-- Valores do Pedido -->
-  <div class="resumo">
-    <div class="container-valor">
-      <p class="valor-title">Valor do pedido</p>
-      <p class="valor">
-        {{ calcularTotal() | currency : "BRL" : "symbol" : "1.2-2" }}
-      </p>
-    </div>
-    <div class="container-valor">
-      <p class="valor-title">Taxa de entrega</p>
-      <p class="valor">
-        {{ taxaEntrega | currency : "BRL" : "symbol" : "1.2-2" }}
-      </p>
-    </div>
-    <div class="container-valor">
-      <p class="valor-title">Descontos</p>
-      <p class="valor">
-        {{ desconto | currency : "BRL" : "symbol" : "1.2-2" }}
-      </p>
-    </div>
     <hr />
-    <div class="container-valor">
-      <p class="valor-title">Total</p>
-      <p class="valor">{{ total | currency : "BRL" : "symbol" : "1.2-2" }}</p>
-    </div>
-  </div>
 
-  <!-- Botão Confirmar Pedido -->
-  <button class="confirmar-button" (click)="confirmarPedido()">
-    Confirmar pedido
-  </button>
+    <!-- Endereço -->
+    <div class="endereco">
+      <h2 class="title">Endereço</h2>
+      <div class="endereco-atual">
+        <p>
+          {{ endereco.rua }},
+          {{ endereco.numero }}
+        </p>
+        <p>
+          {{ endereco.cidade }} /
+          {{ endereco.uf }}
+        </p>
+        <p>{{ endereco.bairro }}</p>
+        <p>{{ endereco.cep }}</p>
+      </div>
+    </div>
+
+    <hr />
+
+    <!-- Cupom -->
+    <div class="cupom">
+      <label for="cupom">CUPOM:</label>
+      <input
+        type="text"
+        id="cupom"
+        [(ngModel)]="cupom"
+        (input)="atualizarTotais()"
+      />
+    </div>
+
+    <!-- Valores do Pedido -->
+    <div class="resumo">
+      <div class="container-valor">
+        <p class="valor-title">Valor do pedido</p>
+        <p class="valor">
+          {{ calcularTotal() | currency : "BRL" : "symbol" : "1.2-2" }}
+        </p>
+      </div>
+      <div class="container-valor">
+        <p class="valor-title">Taxa de entrega</p>
+        <p class="valor">
+          {{ taxaEntrega | currency : "BRL" : "symbol" : "1.2-2" }}
+        </p>
+      </div>
+      <div class="container-valor">
+        <p class="valor-title">Descontos</p>
+        <p class="valor">
+          {{ desconto | currency : "BRL" : "symbol" : "1.2-2" }}
+        </p>
+      </div>
+      <hr />
+      <div class="container-valor">
+        <p class="valor-title">Total</p>
+        <p class="valor">{{ total | currency : "BRL" : "symbol" : "1.2-2" }}</p>
+      </div>
+    </div>
+
+    <!-- Botão Confirmar Pedido -->
+    <button class="confirmar-button" (click)="confirmarPedido()">
+      Confirmar pedido
+    </button>
+  </ng-template>
 </div>

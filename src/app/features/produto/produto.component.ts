@@ -1,31 +1,39 @@
-import { CommonModule } from '@angular/common';
+import { CommonModule, NgIf } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { CarrinhoService } from '../../core/services/carrinho/carrinho.service';
+import { LoadingService } from '../../core/services/loading/loading.service';
 import {
   Produto,
   ProdutoService,
 } from '../../core/services/produto/produto.service';
+import { LoadingComponent } from '../../shared/components/loading/loading.component';
 
 @Component({
   selector: 'app-produto',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, NgIf, LoadingComponent],
   templateUrl: './produto.component.html',
   styleUrl: './produto.component.scss',
 })
 export class ProdutoComponent implements OnInit {
   produto: Produto | null = null;
+  isLoading: boolean = false;
 
   constructor(
     private route: ActivatedRoute,
     private produtoService: ProdutoService,
-    private carrinhoService: CarrinhoService
+    private carrinhoService: CarrinhoService,
+    private loadingService: LoadingService
   ) {}
 
   ngOnInit(): void {
     const produtoId = this.route.snapshot.paramMap.get('id');
     this.buscarProduto(Number(produtoId));
+
+    this.loadingService.loading$.subscribe((loading) => {
+      this.isLoading = loading;
+    });
   }
 
   adicionarCarrinho(): void {

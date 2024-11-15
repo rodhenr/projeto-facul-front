@@ -1,7 +1,6 @@
 import { CommonModule, NgFor, NgIf } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { Observable } from 'rxjs';
 import { LoadingService } from '../../core/services/loading/loading.service';
 import {
   Produto,
@@ -26,14 +25,15 @@ import { LoadingComponent } from '../../shared/components/loading/loading.compon
 })
 export class HomeComponent implements OnInit {
   produtos: Produto[] = [];
-  isLoading$: Observable<boolean>;
-  isError: boolean = false;
+  isLoading: boolean = false;
 
   constructor(
     private produtoService: ProdutoService,
     private loadingService: LoadingService
   ) {
-    this.isLoading$ = this.loadingService.loading$;
+    this.loadingService.loading$.subscribe((loading) => {
+      this.isLoading = loading;
+    });
   }
 
   ngOnInit(): void {
@@ -44,9 +44,8 @@ export class HomeComponent implements OnInit {
     this.produtoService.buscarProdutoEmDestaque().subscribe({
       next: (produtos) => {
         this.produtos = produtos;
-        this.isError = false;
       },
-      error: () => (this.isError = true),
+      error: () => alert('Ocorreu um erro ao carregar os produtos'),
     });
   }
 }

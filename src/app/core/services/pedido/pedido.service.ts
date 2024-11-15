@@ -29,7 +29,7 @@ export class PedidoService {
   }
 
   calcularDesconto(cupom: string) {
-    return cupom ? 10 : 0;
+    return cupom === 'cupom' ? 10 : 0;
   }
 
   calcularTaxaEntrega(): number {

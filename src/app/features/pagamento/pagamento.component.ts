@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+import { CommonModule, NgIf } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import {
   FormControl,
@@ -9,12 +9,14 @@ import {
 import { Router } from '@angular/router';
 import { CarrinhoService } from '../../core/services/carrinho/carrinho.service';
 import { EnderecoService } from '../../core/services/endereco/endereco.service';
+import { LoadingService } from '../../core/services/loading/loading.service';
 import { PedidoService } from '../../core/services/pedido/pedido.service';
+import { LoadingComponent } from '../../shared/components/loading/loading.component';
 
 @Component({
   selector: 'app-pagamento',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, NgIf, LoadingComponent],
   templateUrl: './pagamento.component.html',
   styleUrls: ['./pagamento.component.scss'],
 })
@@ -27,12 +29,15 @@ export class PagamentoComponent implements OnInit {
   total: number = 0;
   itensPedido: any[] = [];
   formEndereco: FormGroup;
+  isLoading: boolean = false;
+  isError: boolean = false;
 
   constructor(
     private enderecoService: EnderecoService,
     private pedidoService: PedidoService,
     private carrinhoService: CarrinhoService,
-    private router: Router
+    private router: Router,
+    private loadingService: LoadingService
   ) {
     this.formEndereco = new FormGroup({
       rua: new FormControl('', [Validators.required]),
@@ -45,19 +50,30 @@ export class PagamentoComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.enderecoService.obterEndereco().subscribe((endereco) => {
-      this.endereco = endereco;
+    this.enderecoService.obterEndereco().subscribe({
+      next: (endereco) => {
+        this.isError = false;
+        this.endereco = endereco;
 
-      if (endereco) {
-        this.formEndereco.setValue({
-          rua: endereco.rua,
-          numero: endereco.numero,
-          cidade: endereco.cidade,
-          uf: endereco.uf,
-          bairro: endereco.bairro,
-          cep: endereco.cep,
-        });
-      }
+        if (endereco) {
+          this.formEndereco.setValue({
+            rua: endereco.rua,
+            numero: endereco.numero,
+            cidade: endereco.cidade,
+            uf: endereco.uf,
+            bairro: endereco.bairro,
+            cep: endereco.cep,
+          });
+        }
+      },
+      error: () => {
+        this.isError = true;
+        alert('Erro ao buscar endereços.');
+      },
+    });
+
+    this.loadingService.loading$.subscribe((loading) => {
+      this.isLoading = loading;
     });
 
     this.itensPedido = this.pedidoService.obterItensPedidoLocal();
@@ -81,11 +97,14 @@ export class PagamentoComponent implements OnInit {
       .salvarPedido(itensPedido, this.taxaEntrega, this.formaPagamento)
       .subscribe({
         next: () => {
+          this.isError = false;
           this.carrinhoService.limparCarrinho();
+
           alert('Pedido realizado!');
           this.router.navigate(['/']);
         },
         error: () => {
+          this.isError = true;
           alert('Erro ao salvar o pedido.');
         },
       });

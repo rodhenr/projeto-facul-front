@@ -1,13 +1,25 @@
 <div class="produto-container">
-  <img src="{{ produto?.urlImagem }}" alt="{{ produto?.nome }}" />
-  <div class="descricao">
-    <h1>{{ produto?.nome }}</h1>
-    <p class="descricao">{{ produto?.descricao }}</p>
-    <div class="preco">
-      <p>{{ produto?.preco | currency : "BRL" : "symbol" : "1.2-2" }}</p>
-    </div>
-    <button class="btn-add-carrinho" (click)="adicionarCarrinho()">
-      Adicionar ao carrinho
-    </button>
+  <div class="loading-overlay" *ngIf="isLoading; else carregou">
+    <app-loading [isLoading]="isLoading"></app-loading>
   </div>
+
+  <ng-template #carregou>
+    <div *ngIf="produto === null; else temProduto">
+      <p>Produto não encontrado. Tente novamente.</p>
+    </div>
+  </ng-template>
+
+  <ng-template #temProduto>
+    <img src="{{ produto?.urlImagem }}" alt="{{ produto?.nome }}" />
+    <div class="descricao">
+      <h1>{{ produto?.nome }}</h1>
+      <p class="descricao">{{ produto?.descricao }}</p>
+      <div class="preco">
+        <p>{{ produto?.preco | currency : "BRL" : "symbol" : "1.2-2" }}</p>
+      </div>
+      <button class="btn-add-carrinho" (click)="adicionarCarrinho()">
+        Adicionar ao carrinho
+      </button>
+    </div>
+  </ng-template>
 </div>

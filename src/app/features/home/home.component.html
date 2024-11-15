@@ -2,8 +2,8 @@
   <div class="destaque"></div>
   <div class="conteudo-container">
     <app-busca />
-    <div class="loading-overlay" *ngIf="isLoading$ | async; else temProduto">
-      <app-loading></app-loading>
+    <div class="loading-overlay" *ngIf="isLoading; else temProduto">
+      <app-loading [isLoading]="isLoading"></app-loading>
     </div>
 
     <ng-template #temProduto>
