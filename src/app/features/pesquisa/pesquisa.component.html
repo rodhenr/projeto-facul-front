@@ -1,18 +1,21 @@
 <div class="pesquisa-container">
-  <h1>Produtos</h1>
-  <app-busca />
+  <h1>Pesquisa</h1>
+  <app-busca></app-busca>
+  <p>{{ produtos.length }} produto(s) encontrado(s)</p>
   <div class="loading-overlay" *ngIf="isLoading; else temProduto">
     <app-loading [isLoading]="isLoading"></app-loading>
   </div>
 
-  <ng-template #temProduto
-    ><div class="itens-container">
-      <div *ngFor="let produto of produtos" class="itens">
+  <ng-template #temProduto>
+    <div class="itens-container">
+      <div *ngFor="let produto of produtos" class="item">
         <img
-          src="{{ produto.urlImagem }}"
-          alt="{{ produto.nome }}"
+          [src]="produto.urlImagem"
+          [alt]="produto.nome"
           [routerLink]="['/produto', produto.id]"
         />
-      </div></div
-  ></ng-template>
+        <p class="nome">{{ produto.nome }}</p>
+      </div>
+    </div>
+  </ng-template>
 </div>

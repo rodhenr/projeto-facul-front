@@ -17,7 +17,7 @@ import { AuthService, ICadastro } from '../../core/services/auth/auth.service';
 })
 export class CadastroComponent {
   cadastroForm = new FormGroup({
-    usuario: new FormControl(''),
+    nome: new FormControl(''),
     email: new FormControl('', Validators.email),
     senha: new FormControl(''),
     confirmacaoSenha: new FormControl(''),
@@ -28,7 +28,7 @@ export class CadastroComponent {
   cadastrarUsuario() {
     if (this.cadastroForm.valid) {
       const cadastro: ICadastro = {
-        usuario: this.cadastroForm.value.usuario!,
+        nome: this.cadastroForm.value.nome!,
         email: this.cadastroForm.value.email!,
         senha: this.cadastroForm.value.senha!,
         confirmacaoSenha: this.cadastroForm.value.confirmacaoSenha!,
@@ -36,9 +36,10 @@ export class CadastroComponent {
 
       this.AuthService.cadastrarUsuario(cadastro).subscribe({
         next: () => {
+          alert('Cadastro realizado com sucesso!');
           this.router.navigate(['/login']);
         },
-        error: (error) => {
+        error: () => {
           alert('Erro ao cadastrar');
         },
       });

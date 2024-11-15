@@ -1,11 +1,11 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { Observable, tap } from 'rxjs';
+import { BehaviorSubject, Observable, tap } from 'rxjs';
 import { LocalStorageService } from '../local-storage/local-storage.service';
 
 export interface ICadastro {
-  usuario: string | null;
+  nome: string | null;
   email: string | null;
   senha: string | null;
   confirmacaoSenha: string | null;
@@ -27,12 +27,21 @@ export interface ILoginResponse {
 })
 export class AuthService {
   private baseUrl = 'https://localhost:44353/api/auth';
+  private isLoggedInSubject: BehaviorSubject<boolean>;
+  isLoggedIn$: Observable<boolean>;
 
   constructor(
     private http: HttpClient,
     private router: Router,
     private localStorageService: LocalStorageService
-  ) {}
+  ) {
+    this.isLoggedInSubject = new BehaviorSubject<boolean>(this.hasToken());
+    this.isLoggedIn$ = this.isLoggedInSubject.asObservable();
+  }
+
+  hasToken(): boolean {
+    return !!this.localStorageService.obterItem('accessToken');
+  }
 
   cadastrarUsuario(dadosCadastro: ICadastro): Observable<any> {
     return this.http.post(`${this.baseUrl}/cadastro`, dadosCadastro);
@@ -53,6 +62,8 @@ export class AuthService {
             'refreshToken',
             resposta.refreshToken
           );
+
+          this.isLoggedInSubject.next(true);
         })
       );
   }
@@ -60,6 +71,7 @@ export class AuthService {
   logout() {
     this.localStorageService.excluirItem('accessToken');
     this.localStorageService.excluirItem('refreshToken');
+    this.isLoggedInSubject.next(false);
     this.router.navigate(['']);
   }
 }

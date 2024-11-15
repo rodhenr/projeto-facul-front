@@ -1,74 +1,77 @@
 .cart-container {
+  background-color: #eae7dc;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
   font-family: Arial, sans-serif;
-  margin: 0 auto;
-  max-width: 1200px;
-  padding: 20px;
-
-  hr {
-    border-color: #76606c;
-    height: 2px;
-    margin: 0;
-    width: 100%;
-  }
-
-  p {
-    margin: 0;
-  }
+  padding: 1rem;
 }
 
-h1 {
-  color: #76606c;
-  font-size: 2rem;
-  margin-bottom: 20px;
-  text-align: left;
+.main {
+  display: flex;
+  flex-direction: column;
 }
 
 .cart-items {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 1rem;
 }
 
 .cart-item {
+  background-color: white;
   border: 1px solid #ddd;
   border-radius: 0.5rem;
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
-  padding: 1rem;
+  padding: 1.5rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.checkout-button {
+  background-color: #76606c;
+  border: none;
+  border-radius: 4px;
+  color: white;
+  cursor: pointer;
+  font-size: 1.2rem;
+  height: 50px;
+  margin-top: 30px;
+  padding: 0.8rem 20px;
+  width: 100%;
+  transition: background-color 0.3s ease;
+
+  &:hover {
+    background-color: #382d34;
+  }
 }
 
 .item-line {
   align-items: center;
   display: flex;
-  gap: 0.5rem;
   justify-content: space-between;
   width: 100%;
 }
 
-.product-image {
-  border-radius: 5px;
-  height: 80px;
-  object-fit: cover;
-  width: 80px;
+.item-price {
+  color: #382d34;
+  font-weight: bold;
+  min-width: 100px;
+  text-align: right;
 }
 
-.product-details h3 {
-  font-size: 1.2rem;
+.product-details p {
+  color: #382d34;
+  font-size: 1.25rem;
   margin: 0;
 }
 
-.remove-button {
-  background-color: red;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  color: white;
-  padding: 5px 0.5rem;
-}
-
-.remove-button:hover {
-  background-color: darkred;
+.product-image {
+  border-radius: 8px;
+  height: 90px;
+  object-fit: cover;
+  width: 90px;
 }
 
 .quantity-controls {
@@ -82,67 +85,86 @@ h1 {
   border-radius: 5px;
   cursor: pointer;
   font-size: 1rem;
-  width: 25px;
+  padding: 4px 10px;
+  transition: background-color 0.3s ease;
+
+  &:hover {
+    background-color: #f0f0f0;
+  }
 }
 
-.item-price {
-  font-weight: bold;
-  text-align: right;
-  min-width: 100px;
+.remove-button {
+  background-color: #f44336;
+  border: none;
+  border-radius: 5px;
+  color: white;
+  cursor: pointer;
+  padding: 6px 10px;
+  transition: background-color 0.3s ease;
+
+  &:hover {
+    background-color: #d32f2f;
+  }
 }
 
 .taxa-entrega {
   align-items: center;
-  color: #76606c;
+  color: #382d34;
   display: flex;
-  gap: 1rem;
+  gap: 1.5rem;
   justify-content: space-between;
   margin-top: 20px;
+}
+
+.total-price {
+  align-items: center;
+  color: #382d34;
+  display: flex;
+  gap: 1.5rem;
+  font-size: 1.2rem;
+  justify-content: space-between;
+  padding-top: 0.5rem;
+}
+
+hr {
+  border-color: #ddd;
+  height: 1px;
+  margin: 1rem 0;
+  width: 100%;
+}
+
+h1 {
+  color: #76606c;
+  font-size: 2.5rem;
+  margin-bottom: 20px;
+  text-align: left;
 }
 
 .bold-text {
   font-weight: bold;
 }
 
-.price {
-  display: flex;
-  border: 1px solid black;
-  border-radius: 0.25rem;
-  justify-self: flex-end;
-  padding: 0.5rem 1rem;
+@media (min-width: 1024px) {
+  .main {
+    width: 60% !important;
+  }
 }
 
-.total-price {
-  align-items: center;
-  color: #76606c;
-  display: flex;
-  gap: 1rem;
-  justify-content: flex-end;
+@media (min-width: 768px) {
+  .cart-container {
+    align-items: center;
+  }
+
+  .main {
+    width: 80%;
+  }
 }
 
-.checkout-button {
-  background-color: #76606c;
-  border: none;
-  border-radius: 4px;
-  color: white;
-  cursor: pointer;
-  font-size: 1.2rem;
-  height: 50px;
-  margin-top: 20px;
-  padding: 0.5rem 20px;
-  width: 100%;
-}
-
-.checkout-button:hover {
-  background-color: #382d34;
-}
-
-/* Responsividade */
 @media (max-width: 768px) {
   .cart-item {
     flex-direction: column;
     align-items: flex-start;
-    padding: 0.5rem;
+    padding: 0.8rem;
   }
 
   .item-line {
@@ -185,11 +207,11 @@ h1 {
 
 @media (max-width: 480px) {
   h1 {
-    font-size: 1.5rem;
+    font-size: 1.8rem;
   }
 
   .cart-item {
-    padding: 0.5rem;
+    padding: 0.8rem;
   }
 
   .product-image {
@@ -204,5 +226,10 @@ h1 {
   .item-price {
     text-align: right;
     margin-left: auto;
+  }
+
+  .checkout-button {
+    font-size: 1rem;
+    width: 100%;
   }
 }

@@ -1,57 +1,69 @@
 <div class="cart-container">
-  <h1>Carrinho</h1>
+  <div class="main">
+    <h1>Carrinho</h1>
 
-  <div class="cart-items" *ngIf="itensCarrinho.length > 0; else emptyCart">
-    <div class="cart-item" *ngFor="let item of itensCarrinho">
-      <div class="item-line">
-        <img [src]="item.urlImagem" [alt]="item.nome" class="product-image" />
-        <div class="product-details">
-          <h3>{{ item.nome }}</h3>
+    <div class="cart-items" *ngIf="itensCarrinho.length > 0; else emptyCart">
+      <div class="cart-item" *ngFor="let item of itensCarrinho">
+        <div class="item-line">
+          <img [src]="item.urlImagem" [alt]="item.nome" class="product-image" />
+          <div class="product-details">
+            <p>{{ item.nome }}</p>
+          </div>
+          <button class="remove-button" (click)="removeItem(item.id)">
+            <fa-icon [icon]="faTrash"></fa-icon>
+          </button>
         </div>
-        <button class="remove-button" (click)="removeItem(item.id)">
-          <fa-icon [icon]="faTrash"></fa-icon>
-        </button>
+
+        <div class="item-line">
+          <div class="quantity-controls">
+            <button (click)="diminuirQuantidade(item.id)">-</button>
+            <span>{{ item.quantidade }}</span>
+            <button (click)="aumentarQuantidade(item.id)">+</button>
+          </div>
+          <div class="item-price">
+            {{
+              item.preco * item.quantidade
+                | currency : "BRL" : "symbol" : "1.2-2"
+            }}
+          </div>
+        </div>
       </div>
 
-      <div class="item-line">
-        <div class="quantity-controls">
-          <button (click)="diminuirQuantidade(item.id)">-</button>
-          <span>{{ item.quantidade }}</span>
-          <button (click)="aumentarQuantidade(item.id)">+</button>
+      <div class="valores">
+        <div class="taxa-entrega">
+          <p class="bold-text">Total dos produtos</p>
+          <p>
+            {{ obterPrecoItensTotal() | currency : "BRL" : "symbol" : "1.2-2" }}
+          </p>
         </div>
-        <div class="item-price">
-          {{
-            item.preco * item.quantidade | currency : "BRL" : "symbol" : "1.2-2"
-          }}
+
+        <div class="taxa-entrega">
+          <p class="bold-text">Taxa de entrega</p>
+          <p>
+            {{ obterTaxaEntrega() | currency : "BRL" : "symbol" : "1.2-2" }}
+          </p>
+        </div>
+
+        <hr />
+
+        <div class="total-price">
+          <p class="bold-text">Total do pedido</p>
+          <p class="bold-text">
+            {{
+              obterPrecoItensTotal() + obterTaxaEntrega()
+                | currency : "BRL" : "symbol" : "1.2-2"
+            }}
+          </p>
         </div>
       </div>
+
+      <button class="checkout-button" [routerLink]="['/pagamento']">
+        Ir para pagamento
+      </button>
     </div>
 
-    <div class="taxa-entrega">
-      <p class="bold-text">Taxa de entrega</p>
-      <p class="price">
-        {{ obterTaxaEntrega() | currency : "BRL" : "symbol" : "1.2-2" }}
-      </p>
-    </div>
-
-    <hr />
-
-    <div class="total-price">
-      <p class="bold-text">Total</p>
-      <p class="price">
-        {{
-          obterPrecoItensTotal() + obterTaxaEntrega()
-            | currency : "BRL" : "symbol" : "1.2-2"
-        }}
-      </p>
-    </div>
-
-    <button class="checkout-button" [routerLink]="['/pagamento']">
-      Ir para pagamento
-    </button>
+    <ng-template #emptyCart>
+      <p>Seu carrinho está vazio.</p>
+    </ng-template>
   </div>
-
-  <ng-template #emptyCart>
-    <p>Seu carrinho está vazio.</p>
-  </ng-template>
 </div>

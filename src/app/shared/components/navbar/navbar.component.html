@@ -14,12 +14,8 @@
     </div>
 
     <div class="container-login">
-      <fa-icon
-        [icon]="faUser"
-        (click)="navegarBaseadoAutenticacao()"
-        [ngStyle]="{ cursor: windowWidth < 768 ? 'pointer' : 'auto' }"
-      />
-      <div *ngIf="windowWidth >= 768">
+      <fa-icon [icon]="faUser" (click)="navegarBaseadoAutenticacao()" />
+      <div *ngIf="windowWidth >= 768 && !isLoggedIn">
         <p>Olá visitante, seja bem-vindo</p>
         <a (click)="navegarBaseadoAutenticacao()">
           <p class="login-text">Entrar</p>

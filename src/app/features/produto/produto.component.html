@@ -10,16 +10,18 @@
   </ng-template>
 
   <ng-template #temProduto>
-    <img src="{{ produto?.urlImagem }}" alt="{{ produto?.nome }}" />
-    <div class="descricao">
-      <h1>{{ produto?.nome }}</h1>
-      <p class="descricao">{{ produto?.descricao }}</p>
-      <div class="preco">
-        <p>{{ produto?.preco | currency : "BRL" : "symbol" : "1.2-2" }}</p>
+    <div class="main">
+      <img src="{{ produto?.urlImagem }}" alt="{{ produto?.nome }}" />
+      <div class="descricao">
+        <h1>{{ produto?.nome }}</h1>
+        <p class="texto-descricao">{{ produto?.descricao }}</p>
+        <div class="preco">
+          <p>{{ produto?.preco | currency : "BRL" : "symbol" : "1.2-2" }}</p>
+        </div>
+        <button class="btn-add-carrinho" (click)="adicionarCarrinho()">
+          Adicionar ao carrinho
+        </button>
       </div>
-      <button class="btn-add-carrinho" (click)="adicionarCarrinho()">
-        Adicionar ao carrinho
-      </button>
     </div>
   </ng-template>
 </div>

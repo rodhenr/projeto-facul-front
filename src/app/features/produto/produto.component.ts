@@ -45,6 +45,8 @@ export class ProdutoComponent implements OnInit {
         urlImagem: this.produto.urlImagem,
         quantidade: 1,
       });
+
+      alert('Produto adicionado ao carrinho!');
     }
   }
 

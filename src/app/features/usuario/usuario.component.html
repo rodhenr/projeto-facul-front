@@ -9,174 +9,179 @@
     </div>
   </ng-template>
 
-  <ng-template #semErros
-    ><div class="top">
-      <h2>Minha Conta</h2>
-      <button (click)="logout()" class="logout-btn">Logout</button>
-    </div>
+  <ng-template #semErros>
+    <div class="main">
+      <div class="top">
+        <h2>Minha Conta</h2>
+        <button (click)="logout()" class="logout-btn">Logout</button>
+      </div>
 
-    <!-- Exibindo o endereço -->
-    <div class="endereco-atual-container">
-      <div *ngIf="endereco; else semEndereco" class="enderecos">
-        <h3>Seu endereço atual</h3>
-        <div class="endereco-atual">
-          <p>
-            {{ endereco.rua }},
-            {{ endereco.numero }}
-          </p>
-          <p>
-            {{ endereco.cidade }} /
-            {{ endereco.uf }}
-          </p>
-          <p>{{ endereco.bairro }}</p>
-          <p>{{ endereco.cep }}</p>
+      <!-- Exibindo o endereço -->
+      <div class="endereco-atual-container">
+        <div *ngIf="endereco; else semEndereco" class="enderecos">
+          <h3>Seu endereço atual</h3>
+          <div class="endereco-atual">
+            <p>
+              {{ endereco.rua }},
+              {{ endereco.numero }}
+            </p>
+            <p>
+              {{ endereco.cidade }} /
+              {{ endereco.uf }}
+            </p>
+            <p>{{ endereco.bairro }}</p>
+            <p>{{ endereco.cep }}</p>
+          </div>
+          <button (click)="editarEndereco()" class="editar-btn">
+            Editar Endereço
+          </button>
         </div>
-        <button (click)="editarEndereco()" class="editar-btn">
-          Editar Endereço
-        </button>
-      </div>
 
-      <ng-template #semEndereco>
-        <h3>Endereço</h3>
-        <p>Você ainda não tem um endereço registrado.</p>
-        <button (click)="adicionarEndereco()" class="adicionar-btn">
-          Adicionar Endereço
-        </button>
-      </ng-template>
+        <ng-template #semEndereco>
+          <h3>Endereço</h3>
+          <p>Você ainda não tem um endereço registrado.</p>
+          <button (click)="adicionarEndereco()" class="adicionar-btn">
+            Adicionar Endereço
+          </button>
+        </ng-template>
 
-      <!-- Formulário para Adicionar ou Editar Endereço -->
-      <div *ngIf="mostrarFormularioEndereco">
-        <h3>{{ ehEdicao ? "Editar Endereço" : "Adicionar Endereço" }}</h3>
-        <form [formGroup]="formEndereco" (ngSubmit)="enviarFormulario()">
-          <div>
-            <label for="rua">Rua</label>
-            <input id="rua" formControlName="rua" />
-            <div
-              *ngIf="
-                formEndereco.get('rua')?.invalid &&
-                formEndereco.get('rua')?.touched
-              "
-            >
-              <small class="erro">A rua é obrigatória.</small>
-            </div>
-          </div>
-          <div>
-            <label for="cidade">Cidade</label>
-            <input id="cidade" formControlName="cidade" />
-            <div
-              *ngIf="
-                formEndereco.get('cidade')?.invalid &&
-                formEndereco.get('cidade')?.touched
-              "
-            >
-              <small class="erro">A cidade é obrigatória.</small>
-            </div>
-          </div>
-          <div>
-            <label for="uf">UF</label>
-            <input id="uf" formControlName="uf" />
-            <div
-              *ngIf="
-                formEndereco.get('uf')?.invalid &&
-                formEndereco.get('uf')?.touched
-              "
-            >
-              <small class="erro">O estado é obrigatório.</small>
-            </div>
-          </div>
-          <div>
-            <label for="bairro">Bairro</label>
-            <input id="bairro" formControlName="bairro" />
-            <div
-              *ngIf="
-                formEndereco.get('bairro')?.invalid &&
-                formEndereco.get('bairro')?.touched
-              "
-            >
-              <small class="erro">O bairro é obrigatório.</small>
-            </div>
-          </div>
-          <div>
-            <label for="numero">Número</label>
-            <input id="numero" formControlName="numero" />
-            <div
-              *ngIf="
-                formEndereco.get('numero')?.invalid &&
-                formEndereco.get('numero')?.touched
-              "
-            >
-              <small class="erro">O numero é obrigatório.</small>
-            </div>
-          </div>
-          <div>
-            <label for="cep">CEP</label>
-            <input id="cep" formControlName="cep" />
-            <div
-              *ngIf="
-                formEndereco.get('cep')?.invalid &&
-                formEndereco.get('cep')?.touched
-              "
-            >
-              <small class="erro">O CEP é obrigatório.</small>
-            </div>
-          </div>
-          <div class="btn-container">
-            <button type="submit" [disabled]="formEndereco.invalid">
-              {{ ehEdicao ? "Salvar Alterações" : "Adicionar Endereço" }}
-            </button>
-            <button type="button" (click)="cancelarFormularioEndereco()">
-              Cancelar
-            </button>
-          </div>
-        </form>
-      </div>
-    </div>
-
-    <!-- Exibindo os Pedidos -->
-    <div class="pedidos">
-      <div *ngIf="pedidos.length > 0">
-        <h3>Meus Pedidos</h3>
-        <div *ngFor="let pedido of pedidos" class="pedido-container">
-          <div class="pedido" (click)="mostrarDetalhes(pedido)">
-            <p>Pedido #{{ pedido.id }} - {{ pedido.status }}</p>
-          </div>
-          <div *ngIf="pedido.exibirDetalhes" class="detalhes">
-            <h4>Itens do Pedido</h4>
-            <ul>
-              <li *ngFor="let item of pedido.itens">
-                <p>Produto: {{ item.produtoNome }}</p>
-                <p>Preço: {{ item.produtoPreco | currency : "BRL" }}</p>
-                <p>Quantidade: {{ item.produtoQuantidade }}</p>
-                <p>
-                  Subtotal:
-                  {{
-                    item.produtoPreco * item.produtoQuantidade
-                      | currency : "BRL"
-                  }}
-                </p>
-              </li>
-            </ul>
-            <div class="valores">
-              <div class="valor-item">
-                <p>Total dos itens</p>
-                <p>{{ calcularTotalItens(pedido.itens) | currency : "BRL" }}</p>
-              </div>
-              <div class="valor-item">
-                <p>Taxa da entrega</p>
-                <p>{{ pedido.taxaEntrega | currency : "BRL" }}</p>
-              </div>
-
-              <div class="valor-item total">
-                <p>Total</p>
-                <p>{{ pedido.precoTotal | currency : "BRL" }}</p>
+        <!-- Formulário para Adicionar ou Editar Endereço -->
+        <div *ngIf="mostrarFormularioEndereco">
+          <h3>{{ ehEdicao ? "Editar Endereço" : "Adicionar Endereço" }}</h3>
+          <form [formGroup]="formEndereco" (ngSubmit)="enviarFormulario()">
+            <div>
+              <label for="rua">Rua</label>
+              <input id="rua" formControlName="rua" />
+              <div
+                *ngIf="
+                  formEndereco.get('rua')?.invalid &&
+                  formEndereco.get('rua')?.touched
+                "
+              >
+                <small class="erro">A rua é obrigatória.</small>
               </div>
             </div>
-          </div>
+            <div>
+              <label for="cidade">Cidade</label>
+              <input id="cidade" formControlName="cidade" />
+              <div
+                *ngIf="
+                  formEndereco.get('cidade')?.invalid &&
+                  formEndereco.get('cidade')?.touched
+                "
+              >
+                <small class="erro">A cidade é obrigatória.</small>
+              </div>
+            </div>
+            <div>
+              <label for="uf">UF</label>
+              <input id="uf" formControlName="uf" />
+              <div
+                *ngIf="
+                  formEndereco.get('uf')?.invalid &&
+                  formEndereco.get('uf')?.touched
+                "
+              >
+                <small class="erro">O estado é obrigatório.</small>
+              </div>
+            </div>
+            <div>
+              <label for="bairro">Bairro</label>
+              <input id="bairro" formControlName="bairro" />
+              <div
+                *ngIf="
+                  formEndereco.get('bairro')?.invalid &&
+                  formEndereco.get('bairro')?.touched
+                "
+              >
+                <small class="erro">O bairro é obrigatório.</small>
+              </div>
+            </div>
+            <div>
+              <label for="numero">Número</label>
+              <input id="numero" formControlName="numero" />
+              <div
+                *ngIf="
+                  formEndereco.get('numero')?.invalid &&
+                  formEndereco.get('numero')?.touched
+                "
+              >
+                <small class="erro">O numero é obrigatório.</small>
+              </div>
+            </div>
+            <div>
+              <label for="cep">CEP</label>
+              <input id="cep" formControlName="cep" />
+              <div
+                *ngIf="
+                  formEndereco.get('cep')?.invalid &&
+                  formEndereco.get('cep')?.touched
+                "
+              >
+                <small class="erro">O CEP é obrigatório.</small>
+              </div>
+            </div>
+            <div class="btn-container">
+              <button type="submit" [disabled]="formEndereco.invalid">
+                {{ ehEdicao ? "Salvar Alterações" : "Adicionar Endereço" }}
+              </button>
+              <button type="button" (click)="cancelarFormularioEndereco()">
+                Cancelar
+              </button>
+            </div>
+          </form>
         </div>
       </div>
-      <div *ngIf="pedidos.length === 0" class="sem-pedido">
-        <h3>Você não tem pedidos</h3>
+
+      <!-- Exibindo os Pedidos -->
+      <div class="pedidos">
+        <div *ngIf="pedidos.length > 0">
+          <h3>Meus Pedidos</h3>
+          <div *ngFor="let pedido of pedidos" class="pedido-container">
+            <div class="pedido" (click)="mostrarDetalhes(pedido)">
+              <p>Pedido #{{ pedido.id }} - {{ pedido.status }}</p>
+              <p>{{ pedido.data | date : "dd/MM/yyyy" }}</p>
+            </div>
+            <div *ngIf="pedido.exibirDetalhes" class="detalhes">
+              <h4>Itens do Pedido</h4>
+              <ul>
+                <li *ngFor="let item of pedido.itens">
+                  <p>Produto: {{ item.produtoNome }}</p>
+                  <p>Preço: {{ item.produtoPreco | currency : "BRL" }}</p>
+                  <p>Quantidade: {{ item.produtoQuantidade }}</p>
+                  <p>
+                    Subtotal:
+                    {{
+                      item.produtoPreco * item.produtoQuantidade
+                        | currency : "BRL"
+                    }}
+                  </p>
+                </li>
+              </ul>
+              <div class="valores">
+                <div class="valor-item">
+                  <p>Total dos itens</p>
+                  <p>
+                    {{ calcularTotalItens(pedido.itens) | currency : "BRL" }}
+                  </p>
+                </div>
+                <div class="valor-item">
+                  <p>Taxa da entrega</p>
+                  <p>{{ pedido.taxaEntrega | currency : "BRL" }}</p>
+                </div>
+
+                <div class="valor-item total">
+                  <p>Total</p>
+                  <p>{{ pedido.precoTotal | currency : "BRL" }}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div *ngIf="pedidos.length === 0" class="sem-pedido">
+          <h3>Você não tem pedidos</h3>
+        </div>
       </div>
-    </div></ng-template
-  >
+    </div>
+  </ng-template>
 </div>
