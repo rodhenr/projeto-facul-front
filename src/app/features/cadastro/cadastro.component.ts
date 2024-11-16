@@ -1,3 +1,4 @@
+import { NgIf } from '@angular/common';
 import { Component } from '@angular/core';
 import {
   FormControl,
@@ -7,11 +8,13 @@ import {
 } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { AuthService, ICadastro } from '../../core/services/auth/auth.service';
+import { LoadingService } from '../../core/services/loading/loading.service';
+import { LoadingComponent } from '../../shared/components/loading/loading.component';
 
 @Component({
   selector: 'app-cadastro',
   standalone: true,
-  imports: [RouterModule, ReactiveFormsModule],
+  imports: [RouterModule, ReactiveFormsModule, LoadingComponent, NgIf],
   templateUrl: './cadastro.component.html',
   styleUrl: './cadastro.component.scss',
 })
@@ -22,8 +25,17 @@ export class CadastroComponent {
     senha: new FormControl(''),
     confirmacaoSenha: new FormControl(''),
   });
+  isLoading: boolean = false;
 
-  constructor(private AuthService: AuthService, private router: Router) {}
+  constructor(
+    private AuthService: AuthService,
+    private router: Router,
+    private loadingService: LoadingService
+  ) {
+    this.loadingService.loading$.subscribe((loading) => {
+      this.isLoading = loading;
+    });
+  }
 
   cadastrarUsuario() {
     if (this.cadastroForm.valid) {

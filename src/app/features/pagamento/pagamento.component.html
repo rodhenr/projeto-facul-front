@@ -30,17 +30,48 @@
       <!-- Endereço -->
       <div class="endereco">
         <h2 class="title">Endereço</h2>
-        <div class="endereco-atual">
-          <p>
-            {{ endereco.rua }},
-            {{ endereco.numero }}
+        <div
+          *ngIf="
+            !endereco ||
+            !endereco.rua ||
+            !endereco.numero ||
+            !endereco.cidade ||
+            !endereco.uf ||
+            !endereco.bairro ||
+            !endereco.cep
+          "
+        >
+          <p class="alerta-endereco">
+            Por favor, cadastre um endereço antes de prosseguir com o pagamento.
           </p>
-          <p>
-            {{ endereco.cidade }} /
-            {{ endereco.uf }}
-          </p>
-          <p>{{ endereco.bairro }}</p>
-          <p>{{ endereco.cep }}</p>
+          <!-- Botão para redirecionar para a página de cadastro de endereço -->
+          <button class="botao-cadastrar-endereco" [routerLink]="['/usuario']">
+            Cadastrar Endereço
+          </button>
+        </div>
+        <div
+          *ngIf="
+            endereco &&
+            endereco.rua &&
+            endereco.numero &&
+            endereco.cidade &&
+            endereco.uf &&
+            endereco.bairro &&
+            endereco.cep
+          "
+        >
+          <div class="endereco-atual">
+            <p>
+              {{ endereco.rua }},
+              {{ endereco.numero }}
+            </p>
+            <p>
+              {{ endereco.cidade }} /
+              {{ endereco.uf }}
+            </p>
+            <p>{{ endereco.bairro }}</p>
+            <p>{{ endereco.cep }}</p>
+          </div>
         </div>
       </div>
 
@@ -87,7 +118,19 @@
       </div>
 
       <!-- Botão Confirmar Pedido -->
-      <button class="confirmar-button" (click)="confirmarPedido()">
+      <button
+        class="confirmar-button"
+        [disabled]="
+          !endereco ||
+          !endereco.rua ||
+          !endereco.numero ||
+          !endereco.cidade ||
+          !endereco.uf ||
+          !endereco.bairro ||
+          !endereco.cep
+        "
+        (click)="confirmarPedido()"
+      >
         Confirmar pedido
       </button>
     </div>

@@ -71,7 +71,8 @@ hr {
   margin: 0.5rem 0;
 }
 
-.confirmar-button {
+.confirmar-button,
+.botao-cadastrar-endereco {
   background-color: #76606c;
   border: none;
   color: white;
@@ -82,8 +83,13 @@ hr {
   transition: background-color 0.3s ease;
 }
 
-.confirmar-button:hover {
+.confirmar-button:hover,
+.botao-cadastrar-endereco:hover {
   background-color: #5e4d5b;
+}
+
+.confirmar-button:disabled {
+  background-color: #959595;
 }
 
 .container-valor {

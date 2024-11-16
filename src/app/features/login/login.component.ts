@@ -1,3 +1,4 @@
+import { NgIf } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import {
   FormControl,
@@ -7,12 +8,14 @@ import {
 } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { AuthService, ILogin } from '../../core/services/auth/auth.service';
+import { LoadingService } from '../../core/services/loading/loading.service';
 import { LocalStorageService } from '../../core/services/local-storage/local-storage.service';
+import { LoadingComponent } from '../../shared/components/loading/loading.component';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [RouterModule, ReactiveFormsModule],
+  imports: [RouterModule, ReactiveFormsModule, LoadingComponent, NgIf],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss',
 })
@@ -21,12 +24,18 @@ export class LoginComponent implements OnInit {
     email: new FormControl('', Validators.email),
     senha: new FormControl(''),
   });
+  isLoading: boolean = false;
 
   constructor(
     private AuthService: AuthService,
     private router: Router,
-    private localStorageService: LocalStorageService
-  ) {}
+    private localStorageService: LocalStorageService,
+    private loadingService: LoadingService
+  ) {
+    this.loadingService.loading$.subscribe((loading) => {
+      this.isLoading = loading;
+    });
+  }
 
   ngOnInit(): void {
     const token = this.localStorageService.obterItem('accessToken');

@@ -6,7 +6,7 @@ import {
   FormsModule,
   Validators,
 } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { CarrinhoService } from '../../core/services/carrinho/carrinho.service';
 import { EnderecoService } from '../../core/services/endereco/endereco.service';
 import { LoadingService } from '../../core/services/loading/loading.service';
@@ -16,7 +16,7 @@ import { LoadingComponent } from '../../shared/components/loading/loading.compon
 @Component({
   selector: 'app-pagamento',
   standalone: true,
-  imports: [CommonModule, FormsModule, NgIf, LoadingComponent],
+  imports: [CommonModule, FormsModule, NgIf, LoadingComponent, RouterModule],
   templateUrl: './pagamento.component.html',
   styleUrls: ['./pagamento.component.scss'],
 })
